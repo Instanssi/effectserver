@@ -9,6 +9,9 @@ if require.main is module
       enttec1:
         path: "/dev/serial/by-id/usb-FTDI_FT245R_USB_FIFO_ENP9D7H7-if00-port0"
         type: "enttec"
+      enttec2:
+        path: "/dev/serial/by-id/usb-FTDI_USB__-__Serial-if00-port0"
+        type: "enttec"
     mapping:
       lights:
         0:
@@ -16,7 +19,7 @@ if require.main is module
           type: "rgb"
           address: 2
         1:
-          host: "enttec1"
+          host: "enttec2"
           type: "rgb"
           address: 8
 
@@ -26,8 +29,8 @@ if require.main is module
 
   # console.log "light0", manager.groups.lights.devices[0].set
 
-  manager.groups.lights.devices[0].set 255, 0, 0
-  manager.groups.lights.devices[1].set 255, 0, 0
+  manager.groups.lights.devices[0].set 0, 0, 255
+  manager.groups.lights.devices[1].set 0, 255, 0
 
   manager.commitAll()
 
