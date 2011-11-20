@@ -1,5 +1,4 @@
 
-fs = require "fs"
 {jspack} = require "jspack"
 {SerialPort} = require "serialport"
 
@@ -7,7 +6,7 @@ fs = require "fs"
 
 class RGBLight
 
-  type: "light"
+  type: "lights"
 
   host: "enttec"
 

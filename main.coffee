@@ -15,17 +15,19 @@ if require.main is module
           host: "enttec1"
           type: "rgb"
           address: 2
-        2:
+        1:
           host: "enttec1"
           type: "rgb"
           address: 8
 
-      smokes:
-        0:
-          host: "ent3tec1"
-          type: "basicsmoke"
-          address: 56
 
   manager.build()
-  console.log manager.groups
+  console.log "groups:", manager.groups
+
+  # console.log "light0", manager.groups.lights.devices[0].set
+
+  manager.groups.lights.devices[0].set 255, 0, 0
+  manager.groups.lights.devices[1].set 255, 0, 0
+
+  manager.commitAll()
 

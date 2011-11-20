@@ -46,6 +46,7 @@ class EffectManager
     for hostName, hostOpts of @setup.hosts
       if Host = @hostClasses[hostOpts.type]
         @hosts[hostName] = new Host hostOpts
+        console.log "Host:", hostName, hostOpts.type
       else
         throw new Error "Unknown host type #{ ob.hostOpts }"
 
@@ -53,9 +54,10 @@ class EffectManager
 
       group = @groups[deviceClass] = new EffectGroup deviceClass
 
-      for virtualId, deviceOpts in deviceMap
+      for virtualId, deviceOpts of deviceMap
+        console.log virtualId, deviceOpts
 
-        if Device = new @deviceTypes[deviceClass]?[deviceOpts.type]
+        if Device = @deviceTypes[deviceClass]?[deviceOpts.type]
           device = new Device deviceOpts
         else
           throw new Error "Unkdown device type #{ deviceOpts.type }"
