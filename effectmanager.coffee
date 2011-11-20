@@ -30,7 +30,7 @@ class EffectManager
     @groups = {}
     @hosts = {}
 
-  deviceTypes:
+  deviceClasses:
     lights:
       rgb: enttec.RGBLight
 
@@ -48,7 +48,7 @@ class EffectManager
         @hosts[hostName] = new Host hostOpts
         console.log "Host:", hostName, hostOpts.type
       else
-        throw new Error "Unknown host type #{ ob.hostOpts }"
+        throw new Error "Unknown host type #{ hostOpts.type }"
 
     for deviceClass, deviceMap of @setup.mapping
 
@@ -57,7 +57,7 @@ class EffectManager
       for virtualId, deviceOpts of deviceMap
         console.log virtualId, deviceOpts
 
-        if Device = @deviceTypes[deviceClass]?[deviceOpts.type]
+        if Device = @deviceClasses[deviceClass]?[deviceOpts.type]
           device = new Device deviceOpts
         else
           throw new Error "Unkdown device type #{ deviceOpts.type }"
