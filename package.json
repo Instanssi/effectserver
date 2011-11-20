@@ -1,0 +1,30 @@
+{
+    "name" : "effectserver"
+    , "version": "0.1.0"
+    , "author": "Esa-Matti Suuronen"
+    , "homepage": "https://github.com/epeli/effectserver"
+    , "description": "UDP packet abstraction for multiple DMX controllers"
+    , "bugs": {
+            "url": "https://github.com/epeli/effectserver/issues/"
+    }
+    , "repository":
+        { "type": "git"
+        , "url": "git://github.com/epeli/effectserver.git"
+    }
+    , "scripts": {
+        "test": "./run-tests.sh"
+    }
+    , "main": "./lib/index"
+    , "dependencies": {
+        "coffee-script": ""
+        , "underscore": ""
+        , "jspack": ""
+        , "serialport": ""
+        , "underscore.string": ""
+        , "async": ""
+    }
+    , "devDependencies": {
+          "vows": ""
+        , "supervisor": ""
+    }
+}
