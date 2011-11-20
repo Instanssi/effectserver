@@ -93,3 +93,14 @@ class Enttec
 
 exports.Enttec = Enttec
 exports.RGBLight = RGBLight
+
+
+if require.main is module
+  l = new RGBLight address: 7
+  l.set 255, 255, 255
+  console.log l._buffer.toString "base64"
+  e = new Enttec path: "/dev/null"
+
+
+
+
