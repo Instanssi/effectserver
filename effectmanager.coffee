@@ -1,0 +1,72 @@
+
+enttec = require "./enttec"
+
+
+class EffectGroup
+
+  constructor: (@type) ->
+    @devices = {}
+
+  mapDevice: (virtualId, device) ->
+
+    if @type isnt device.type
+      throw new Error "Cannot add type #{ device.type } to #{ @type } type group"
+
+    @devices[virtualId] = device
+
+  getDevice: (virtualId) ->
+    @devices[virtualId]
+
+  setAll: (args...) ->
+    for device in @devices
+      devices.set.apply device, args
+    null
+
+
+
+class EffectManager
+
+  constructor: (@setup) ->
+    @groups = {}
+    @hosts = {}
+
+  deviceTypes:
+    lights:
+      rgb: enttec.RGBLight
+
+  hostClasses:
+    enttec: enttec.Enttec
+
+  commitAll: ->
+    for k, host of @hosts
+      host.commit()
+
+  build: ->
+
+    for hostName, hostOpts of @setup.hosts
+      if Host = @hostClasses[hostOpts.type]
+        @hosts[hostName] = new Host hostOpts
+      else
+        throw new Error "Unknown host type #{ ob.hostOpts }"
+
+    for deviceClass, deviceMap of @setup.mapping
+
+      group = @groups[deviceClass] = new EffectGroup deviceClass
+
+      for virtualId, deviceOpts in deviceMap
+
+        if Device = new @deviceTypes[deviceClass]?[deviceOpts.type]
+          device = new Device deviceOpts
+        else
+          throw new Error "Unkdown device type #{ deviceOpts.type }"
+
+        if host = @hosts[deviceOpts.host]
+          host.add device
+        else
+          throw new Error "Undefined host #{ deviceOpts.host }"
+
+        group.mapDevice virtualId, device
+
+
+exports.EffectGroup = EffectGroup
+exports.EffectManager = EffectManager

@@ -1,4 +1,3 @@
-
 config =
   hosts:
     enttec1:
