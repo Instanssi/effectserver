@@ -38,7 +38,7 @@ batches = vows.describe("Enttec").addBatch
       assert.equal data[data.length-1], 0xe7
 
 
-  "RGB Lights in host":
+  "RGB Lights in host buffer":
     topic: ->
       host = new enttec.Enttec path: "/dev/null"
 
@@ -59,6 +59,55 @@ batches = vows.describe("Enttec").addBatch
     "Second light is green": (err, data) ->
       assert.equal data[dmxHeaders.length + 16 + 2], 255
 
+
+  "Enttec host":
+    topic: ->
+      host = new enttec.Enttec path: "/dev/null"
+      host.serial = write: ->
+      host
+
+    "Two lights can be added": (host) ->
+      host.devices = []
+      assert.doesNotThrow ->
+        host.add new enttec.RGBLight address: 8
+        host.add new enttec.RGBLight address: 16
+
+    "Two lights can be added close to each others": (host) ->
+      host.devices = []
+      assert.doesNotThrow ->
+        host.add new enttec.RGBLight address: 8
+        host.add new enttec.RGBLight address: 13
+
+
+    "Two lights can be added close to each others2": (host) ->
+      host.devices = []
+      assert.doesNotThrow ->
+        host.add new enttec.RGBLight address: 13
+        host.add new enttec.RGBLight address: 8
+
+    "Second light cannot start before previous ends": (host) ->
+      host.devices = []
+      assert.doesNotThrow ->
+      host.add new enttec.RGBLight address: 8
+
+      assert.throws ->
+        host.add new enttec.RGBLight address: 10
+
+    "Second added light ending cannot clash with previous": (host) ->
+      host.devices = []
+      assert.doesNotThrow ->
+      host.add new enttec.RGBLight address: 8
+
+      assert.throws ->
+        host.add new enttec.RGBLight address: 5
+
+    "Second light cannot be on top of previous": (host) ->
+      host.devices = []
+      assert.doesNotThrow ->
+      host.add new enttec.RGBLight address: 8
+
+      assert.throws ->
+        host.add new enttec.RGBLight address: 8
 
 
 batches.export module

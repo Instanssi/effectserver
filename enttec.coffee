@@ -14,25 +14,21 @@ class RGBLight
     @_buffer = new Buffer 5
     {@address} = opts
 
-  getLength: ->
-    @_buffer.length
 
   set: (r, g, b) ->
     jspack.PackTo "<BBBBB", @_buffer, 0, [0, r, g, b, 0]
 
-  on: ->
-    @set 255, 255, 255
+  getLength: -> @_buffer.length
 
-  off: ->
-    @set 0, 0, 0
+  toBuffer: -> @_buffer
 
-  toBuffer: ->
-    @_buffer
+  getStart: -> parseInt @address, 10
 
+  getEnd: -> @getStart() + @getLength()
 
-  getStart: -> @address
-  getEnd: -> @getLength()
+  setOn: -> @set 255, 255, 255
 
+  setOff: -> @set 0, 0, 0
 
 
 
@@ -57,6 +53,12 @@ class Enttec
   add: (device) ->
     if device.host isnt @type
       throw new Error "Cannot add #{ device.type } device to #{ @type } host"
+
+    for other in @devices
+      if (device.getStart() < other.getStart() and other.getStart() < device.getEnd() or
+         other.getStart() < device.getStart() and device.getStart() < other.getEnd() or
+         other.getStart() is device.getStart() and device.getEnd() is other.getEnd())
+        throw new Error "Device in #{ device.getStart() }...#{ device.getEnd() } clashes with device in  #{ other.getStart() }...#{ other.getEnd() }"
 
     if device not in @devices
       @devices.push device
