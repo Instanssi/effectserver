@@ -30,7 +30,7 @@ describe "Enttec host buffer", ->
     host.commit()
 
 
-  it "headers match the spec":  ->
+  it "headers match the spec",  ->
     assert.deepEqual data.slice(0, dmxHeaders.length), dmxHeaders
 
   it "ending must be 0xe7",  ->
