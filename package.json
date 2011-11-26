@@ -12,7 +12,7 @@
         , "url": "git://github.com/epeli/effectserver.git"
     }
     , "scripts": {
-        "test": "node_modules/.bin/vows specs/*"
+        "test": "node_modules/.bin/mocha"
     }
     , "main": "./lib/index"
     , "dependencies": {
@@ -24,7 +24,7 @@
         , "async": ""
     }
     , "devDependencies": {
-          "vows": ""
+          "mocha": ""
         , "supervisor": ""
     }
 }
