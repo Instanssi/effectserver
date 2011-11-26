@@ -1,7 +1,5 @@
 
-{jspack} = require "jspack"
 {SerialPort} = require "serialport"
-
 
 
 class RGBLight
@@ -16,7 +14,11 @@ class RGBLight
 
 
   set: (r, g, b) ->
-    jspack.PackTo "<BBBBB", @_buffer, 0, [0, r, g, b, 0]
+    @_buffer[0] = 0
+    @_buffer[1] = r
+    @_buffer[2] = g
+    @_buffer[3] = b
+    @_buffer[4] = 0
 
   getLength: -> @_buffer.length
 
@@ -36,10 +38,8 @@ class Enttec
 
   type: "enttec"
 
-  _dmxHeaders:  new Buffer 4
-
   # Write magical dmx headers on class creation
-  jspack.PackTo "<BBBB", @::_dmxHeaders, 0, [0x7e, 6, 0, 2]
+  _dmxHeaders:  new Buffer [0x7e, 6, 0, 2]
 
 
   constructor: (opts) ->
@@ -89,7 +89,7 @@ class Enttec
     @_dmxHeaders.copy @_buffer, 0, 0, @_dmxHeaders.length
 
     # dmx packet must always end with 0xe7
-    jspack.PackTo "<B", @_buffer, @_buffer.length-1, [0xe7]
+    @_buffer[@_buffer.length-1]  = 0xe7
 
     @serial.write @_buffer
 
