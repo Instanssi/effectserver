@@ -55,9 +55,10 @@ class Enttec
       throw new Error "Cannot add #{ device.type } device to #{ @type } host"
 
     for other in @devices
-      if (device.getStart() < other.getStart() and other.getStart() < device.getEnd() or
-         other.getStart() < device.getStart() and device.getStart() < other.getEnd() or
-         other.getStart() is device.getStart() and device.getEnd() is other.getEnd())
+      startOverLaps = device.getStart() < other.getStart() and other.getStart() < device.getEnd()
+      endOverLaps = other.getStart() < device.getStart() and device.getStart() < other.getEnd()
+      onTop = other.getStart() is device.getStart() and device.getEnd() is other.getEnd()
+      if startOverLaps or endOverLaps or onTop
         throw new Error "Device in #{ device.getStart() }...#{ device.getEnd() } clashes with device in  #{ other.getStart() }...#{ other.getEnd() }"
 
     if device not in @devices
