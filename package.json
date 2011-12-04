@@ -24,6 +24,7 @@
     }
     , "devDependencies": {
           "mocha": ""
+        , "should": ""
         , "supervisor": ""
     }
 }
