@@ -31,7 +31,7 @@ class EffectManager
     @hosts = {}
 
   deviceClasses:
-    lights:
+    light:
       rgb: enttec.RGBLight
 
   hostClasses:

@@ -4,7 +4,7 @@
 
 class RGBLight
 
-  type: "lights"
+  type: "light"
 
   host: "enttec"
 
@@ -55,9 +55,11 @@ class Enttec
       throw new Error "Cannot add #{ device.type } device to #{ @type } host"
 
     for other in @devices
+
       startOverLaps = device.getStart() < other.getStart() and other.getStart() < device.getEnd()
       endOverLaps = other.getStart() < device.getStart() and device.getStart() < other.getEnd()
       onTop = other.getStart() is device.getStart() and device.getEnd() is other.getEnd()
+
       if startOverLaps or endOverLaps or onTop
         throw new Error "Device in #{ device.getStart() }...#{ device.getEnd() } clashes with device in  #{ other.getStart() }...#{ other.getEnd() }"
 
@@ -78,6 +80,7 @@ class Enttec
   write: (device) ->
     # Skip headers
     dmxPosition = device.address + @_dmxHeaders.length
+
     console.log "writing", device.toBuffer()
 
     device.toBuffer().copy @_buffer, dmxPosition, 0

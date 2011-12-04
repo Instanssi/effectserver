@@ -53,7 +53,6 @@ versionOneParser = (packet, cmds=[]) ->
 
   parser = deviceParsers[type]
   if not parser
-    console.log parsers
     throw new Error "Unkown device type #{ type }"
 
   # Drop device type and pass rest of the packet to the specific
