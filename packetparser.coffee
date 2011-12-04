@@ -10,7 +10,7 @@ lightParser = do ->
 
   rgbLightParser = (packet) ->
     console.log "rgb packet", packet
-    length: 3
+    packet: packet.slice 3, packet.length
     data:
       lightType: "rgb"
       r: packet[0]
@@ -30,9 +30,9 @@ lightParser = do ->
     if not parser
       throw new Error "Unknown light type #{ type }"
 
-    {data, length} = parser packet.slice 2, packet.length
+    {data, packet} = parser packet.slice 2, packet.length
 
-    length: 2 + length
+    packet: packet
     data:
       deviceType: "light"
       id: id
@@ -58,19 +58,16 @@ versionOneParser = (packet, cmds=[]) ->
 
   # Drop device type and pass rest of the packet to the specific
   # device parser
-  {length, data} = parser packet.slice 1, packet.length
+  {data, packet} = parser packet.slice 1, packet.length
 
   cmds.push data
 
-  length += 1 # type took one octet
-
-  if length is packet.length
+  if packet.length is 0
     # The whole packet is parsed. Return the result
     return cmds
   else
     # There is something to left to parse. Recurse
-    restPacket = packet.slice length, packet.length
-    versionOneParser restPacket, cmds
+    versionOneParser packet, cmds
 
 
 
