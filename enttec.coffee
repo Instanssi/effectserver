@@ -81,8 +81,6 @@ class Enttec
     # Skip headers
     dmxPosition = device.address + @_dmxHeaders.length
 
-    console.log "writing", device.toBuffer()
-
     device.toBuffer().copy @_buffer, dmxPosition, 0
 
 

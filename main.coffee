@@ -11,22 +11,22 @@ udpPort = 9909
 
 manager = new EffectManager
   hosts:
-    # enttec1:
-    #   path: "/dev/serial/by-id/usb-FTDI_FT245R_USB_FIFO_ENP9D7H7-if00-port0"
-    #   type: "enttec"
-    enttec2:
-      path: "/dev/serial/by-id/usb-FTDI_USB__-__Serial-if00-port0"
+    enttec1:
+      path: "/dev/serial/by-id/usb-FTDI_FT245R_USB_FIFO_ENP9D7H7-if00-port0"
       type: "enttec"
+    # enttec2:
+    #   path: "/dev/serial/by-id/usb-FTDI_USB__-__Serial-if00-port0"
+    #   type: "enttec"
   mapping:
     light:
       0:
-        host: "enttec2"
-        type: "rgb"
-        address: 2
-      1:
-        host: "enttec2"
+        host: "enttec1"
         type: "rgb"
         address: 8
+      # 1:
+      #   host: "enttec2"
+      #   type: "rgb"
+      #   address: 8
 
 
 manager.build()
@@ -50,7 +50,14 @@ udbserver.on "message", (packet, rinfo) ->
     websocket.emit "error", user, "Failed to parse #{util.inspect packet} because: #{ e }"
     return
 
+  tag = "anonymous"
+
   for cmd in cmds
+
+    if cmd.tag
+      tag = cmd
+      continue
+
     {r, g, b} = cmd.cmd
 
     deviceGroup = manager.groups[cmd.deviceType]

@@ -1,5 +1,16 @@
+util = require "util"
 
 enttec = require "./enttec"
+
+
+addressToDip = (address) ->
+  dip = address.toString(2).split("").reverse().join("")
+  zeros = 8 - dip.length
+  if zeros > 0
+    for i in [0...zeros]
+      dip += "0"
+  dip
+
 
 
 class EffectGroup
@@ -55,7 +66,9 @@ class EffectManager
       group = @groups[deviceClass] = new EffectGroup deviceClass
 
       for virtualId, deviceOpts of deviceMap
-        console.log virtualId, deviceOpts
+
+        console.log "#{ hostName }: dip pos for #{ deviceOpts.address }:", addressToDip deviceOpts.address
+
 
         if Device = @deviceClasses[deviceClass]?[deviceOpts.type]
           device = new Device deviceOpts
