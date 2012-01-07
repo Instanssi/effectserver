@@ -1,12 +1,7 @@
 
 
 
-
-
-
-
 lightParser = do ->
-
 
   rgbLightParser = (packet) ->
     console.log "rgb packet", packet
@@ -21,7 +16,8 @@ lightParser = do ->
     0: rgbLightParser
 
 
-  (packet) ->
+  # Lightparser
+  return (packet) ->
     console.log "lightpacket", packet
     id = packet[0]
     type = packet[1]
@@ -39,15 +35,30 @@ lightParser = do ->
       cmd: data
 
 
+tagParser = (packet) ->
+  console.log "tag packet", packet
+
+  for v, i in packet
+    if v is 0
+      tagBuf = packet.slice 0, i
+      remaining = packet.slice i+1
+      break
+
+
+  packet: remaining
+  data:
+    tag: tagBuf.toString "utf8"
+
+
 
 deviceParsers =
+  0: tagParser
   1: lightParser
 
 
 
 versionOneParser = (packet, cmds=[]) ->
 
-  console.log "spec one", packet
 
   type = packet[0]
 
@@ -66,7 +77,7 @@ versionOneParser = (packet, cmds=[]) ->
     return cmds
   else
     # There is something to left to parse. Recurse
-    versionOneParser packet, cmds
+    return versionOneParser packet, cmds
 
 
 
@@ -77,9 +88,12 @@ main = (packet) ->
     throw new Error "Unknown spec version"
 
   # Drop spec version
-  versionOneParser packet.slice 1, packet.length
+  result = versionOneParser packet.slice 1, packet.length
 
+  if not result[0].tag
+    result.unshift tag: "anonymous"
 
+  result
 
 
 

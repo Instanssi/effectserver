@@ -21,15 +21,16 @@ describe "packet parser", ->
     cmds = parse lightPacket
 
     expexted = [
-      deviceType: "light"
-      id: 1
-      cmd:
-        lightType: "rgb"
-        r: 0
-        g: 255
-        b: 0
-
-    ]
+        tag: "anonymous"
+      ,
+        deviceType: "light"
+        id: 1
+        cmd:
+          lightType: "rgb"
+          r: 0
+          g: 255
+          b: 0
+      ]
 
     should.deepEqual cmds, expexted
 
@@ -57,24 +58,25 @@ describe "packet parser", ->
     cmds = parse lightPacket
 
     expexted = [
-      deviceType: "light"
-      id: 1
-      cmd:
-        lightType: "rgb"
-        r: 0
-        g: 255
-        b: 0
-    ,
-      deviceType: "light"
-      id: 2
-      cmd:
-        lightType: "rgb"
-        r: 0
-        g: 0
-        b: 255
-    ]
+        tag: "anonymous"
+      ,
+        deviceType: "light"
+        id: 1
+        cmd:
+          lightType: "rgb"
+          r: 0
+          g: 255
+          b: 0
+      ,
+        deviceType: "light"
+        id: 2
+        cmd:
+          lightType: "rgb"
+          r: 0
+          g: 0
+          b: 255
+      ]
 
-    console.log "expexted:", expexted, "got:", cmds
     should.deepEqual cmds, expexted
 
 
@@ -108,30 +110,87 @@ describe "packet parser", ->
     cmds = parse lightPacket
 
     expexted = [
-      deviceType: "light"
-      id: 1
-      cmd:
-        lightType: "rgb"
-        r: 0
-        g: 255
-        b: 0
-    ,
-      deviceType: "light"
-      id: 2
-      cmd:
-        lightType: "rgb"
-        r: 0
-        g: 0
-        b: 255
-    ,
-      deviceType: "light"
-      id: 3
-      cmd:
-        lightType: "rgb"
-        r: 255
-        g: 0
-        b: 255
+        tag: "anonymous"
+      ,
+        deviceType: "light"
+        id: 1
+        cmd:
+          lightType: "rgb"
+          r: 0
+          g: 255
+          b: 0
+      ,
+        deviceType: "light"
+        id: 2
+        cmd:
+          lightType: "rgb"
+          r: 0
+          g: 0
+          b: 255
+      ,
+        deviceType: "light"
+        id: 3
+        cmd:
+          lightType: "rgb"
+          r: 255
+          g: 0
+          b: 255
+      ]
+
+    should.deepEqual cmds, expexted
+
+
+
+
+
+  it "can have tag", ->
+
+    lightPacket = new Buffer [
+      1 # spec version
+
+      , 0 # Tag. 0 is "device type tag"
+      , 101 # e
+      , 112 # p
+      , 101 # e
+      , 108 # l
+      , 105 # i
+      , 0 # end char
+
+      , 1 # Type. 1 means light
+      , 1 # light id
+      , 0 # Light type. 0 means rgb
+      , 0 # R
+      , 255 # G
+      , 0 #B
+
+      , 1 # Type. 1 means light
+      , 2 # light id
+      , 0 # Light type. 0 means rgb
+      , 0 # R
+      , 0 # G
+      , 255 #B
     ]
 
-    console.log "expexted:", expexted, "got:", cmds
+    cmds = parse lightPacket
+
+    expexted = [
+        tag: "epeli"
+      ,
+        deviceType: "light"
+        id: 1
+        cmd:
+          lightType: "rgb"
+          r: 0
+          g: 255
+          b: 0
+      ,
+        deviceType: "light"
+        id: 2
+        cmd:
+          lightType: "rgb"
+          r: 0
+          g: 0
+          b: 255
+      ]
+
     should.deepEqual cmds, expexted
