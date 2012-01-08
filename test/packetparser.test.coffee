@@ -18,21 +18,18 @@ describe "packet parser", ->
       , 0   # B
     ]
 
-    cmds = parse lightPacket
+    should.deepEqual parse(lightPacket), [
+      tag: "anonymous"
+    ,
+      deviceType: "light"
+      id: 1
+      cmd:
+        lightType: "rgb"
+        r: 0
+        g: 255
+        b: 0
+    ]
 
-    expexted = [
-        tag: "anonymous"
-      ,
-        deviceType: "light"
-        id: 1
-        cmd:
-          lightType: "rgb"
-          r: 0
-          g: 255
-          b: 0
-      ]
-
-    should.deepEqual cmds, expexted
 
 
 
@@ -55,29 +52,26 @@ describe "packet parser", ->
       , 255 #B
     ]
 
-    cmds = parse lightPacket
+    should.deepEqual parse(lightPacket), [
+      tag: "anonymous"
+    ,
+      deviceType: "light"
+      id: 1
+      cmd:
+        lightType: "rgb"
+        r: 0
+        g: 255
+        b: 0
+    ,
+      deviceType: "light"
+      id: 2
+      cmd:
+        lightType: "rgb"
+        r: 0
+        g: 0
+        b: 255
+    ]
 
-    expexted = [
-        tag: "anonymous"
-      ,
-        deviceType: "light"
-        id: 1
-        cmd:
-          lightType: "rgb"
-          r: 0
-          g: 255
-          b: 0
-      ,
-        deviceType: "light"
-        id: 2
-        cmd:
-          lightType: "rgb"
-          r: 0
-          g: 0
-          b: 255
-      ]
-
-    should.deepEqual cmds, expexted
 
 
   it "can parse three light packets from single udp-packet", ->
@@ -107,37 +101,34 @@ describe "packet parser", ->
       , 255 #B
     ]
 
-    cmds = parse lightPacket
+    should.deepEqual parse(lightPacket), [
+      tag: "anonymous"
+    ,
+      deviceType: "light"
+      id: 1
+      cmd:
+        lightType: "rgb"
+        r: 0
+        g: 255
+        b: 0
+    ,
+      deviceType: "light"
+      id: 2
+      cmd:
+        lightType: "rgb"
+        r: 0
+        g: 0
+        b: 255
+    ,
+      deviceType: "light"
+      id: 3
+      cmd:
+        lightType: "rgb"
+        r: 255
+        g: 0
+        b: 255
+    ]
 
-    expexted = [
-        tag: "anonymous"
-      ,
-        deviceType: "light"
-        id: 1
-        cmd:
-          lightType: "rgb"
-          r: 0
-          g: 255
-          b: 0
-      ,
-        deviceType: "light"
-        id: 2
-        cmd:
-          lightType: "rgb"
-          r: 0
-          g: 0
-          b: 255
-      ,
-        deviceType: "light"
-        id: 3
-        cmd:
-          lightType: "rgb"
-          r: 255
-          g: 0
-          b: 255
-      ]
-
-    should.deepEqual cmds, expexted
 
 
 
@@ -171,26 +162,23 @@ describe "packet parser", ->
       , 255 #B
     ]
 
-    cmds = parse lightPacket
+    should.deepEqual parse(lightPacket), [
+      tag: "epeli"
+    ,
+      deviceType: "light"
+      id: 1
+      cmd:
+        lightType: "rgb"
+        r: 0
+        g: 255
+        b: 0
+    ,
+      deviceType: "light"
+      id: 2
+      cmd:
+        lightType: "rgb"
+        r: 0
+        g: 0
+        b: 255
+    ]
 
-    expexted = [
-        tag: "epeli"
-      ,
-        deviceType: "light"
-        id: 1
-        cmd:
-          lightType: "rgb"
-          r: 0
-          g: 255
-          b: 0
-      ,
-        deviceType: "light"
-        id: 2
-        cmd:
-          lightType: "rgb"
-          r: 0
-          g: 0
-          b: 255
-      ]
-
-    should.deepEqual cmds, expexted
