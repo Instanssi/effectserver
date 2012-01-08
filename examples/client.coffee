@@ -9,7 +9,14 @@ message = new Buffer [
   , 1 # Type. 1 means light
   , 0 # light id
   , 0 # Light type. 0 means rgb
-  , 0 # R
+  , 255 # R
+  , 0   # G
+  , 0   # B
+
+  , 1 # Type. 1 means light
+  , 3 # light id
+  , 0 # Light type. 0 means rgb
+  , 255 # R
   , 0   # G
   , 255   # B
 

@@ -46,5 +46,5 @@ app.get "/", (req, res) ->
 
 
 
-exports.app = app
-exports.io = io
+exports.webserver = app
+exports.websocket = io

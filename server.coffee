@@ -8,21 +8,16 @@ CSON = require "cson"
 
 {EffectManager} = require "./lib/effectmanager"
 {packetParse} = require "./lib/packetparser"
-{app, io} = require "./web/webserver"
-webserver = app
+
+
+{webserver, websocket} = require "./web/webserver"
+udbserver = dgram.createSocket("udp4")
 
 
 try
   config = CSON.parseFileSync __dirname + "/config.cson"
 catch e
   config = JSON.parse fs.readFileSync __dirname + "/config.json"
-
-util.inspect config, false, 10
-
-websocket = new EventEmitter
-
-websocket.on "error", (user, msg) ->
-  console.log "#{ user }: #{ msg }"
 
 
 manager = new EffectManager config.hosts, config.mapping
@@ -32,48 +27,53 @@ manager.build()
 webserver.get "/config.json", (req, res) ->
   res.json manager.toJSON()
 
-udbserver = dgram.createSocket("udp4")
-udbserver.on "message", (packet, rinfo) ->
 
-  console.log "got msg"
+udbserver.on "message", (packet, rinfo) ->
 
   try
     cmds = packetParse packet
   catch e
-    websocket.emit "error", user, "Failed to parse #{util.inspect packet} because: #{ e }"
+    # TODO: catch only parse errors
+    websocket.emit "parseError",
+      error: "Failed to parse whole packet: #{ e.message }"
+      address: rinfo.address
+
+    # Failed to parse the packet. We cannot continue from here at all.
     return
 
+  # Packet starts as anonymous always
   tag = "anonymous"
 
-  for cmd in cmds
-    user = "#{ tag } (#{ rinfo.address })"
+  results = []
 
+  for cmd in cmds
+
+    # First fragment might tag this packet
     if cmd.tag
       tag = cmd.tag
-      continue
+      continue # to next fragment
 
-    {r, g, b} = cmd.cmd
-
-    deviceGroup = manager.groups[cmd.deviceType]
-    if not deviceGroup
-      websocket.emit "error", user, "Unknown device group #{ cmd.deviceType } we had #{ Object.keys(manager.groups).join(" ") }"
-      continue
-
-    device = deviceGroup.devices[cmd.id]
-    if not device
-      websocket.emit "error", user, "Unkown virtual id #{ cmd.id }"
-      continue
-
-    device.set r, g, b
-
+    error = manager.route cmd
+    results.push
+      address: rinfo.address
+      tag: tag
+      cmd: cmd
+      error: error?.message
 
   manager.commitAll()
+  websocket.emit "cmds", results
+
+
+
+websocket.on "cmds", (cmds) ->
+  for cmd in cmds
+    console.log "WEB", cmd
 
 
 udbserver.on "listening", ->
   console.log "Now listening on UDP port #{ config.servers.udpPort }"
 udbserver.bind config.servers.udpPort
 
-app.listen config.servers.httpPort, ->
+webserver.listen config.servers.httpPort, ->
   console.log "Now listening on HTTP port #{ config.servers.httpPort }"
 

@@ -26,6 +26,11 @@ class RGBLight
     @_buffer[3] = b
     @_buffer[4] = 0
 
+  execute: (cmd, cb) ->
+    # TODO: assert values
+    {r, g, b} = cmd.cmd
+    @set r, g, b
+
   getLength: -> @_buffer.length
 
   toBuffer: -> @_buffer

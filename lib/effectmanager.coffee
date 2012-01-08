@@ -89,6 +89,20 @@ class EffectManager
 
     console.log "GROUPS", @groups
 
+  # Routes command to correct device
+  route: (cmd) ->
+
+    deviceGroup = @groups[cmd.deviceType]
+
+    if not deviceGroup
+      return new Error "Unknown device group #{ cmd.deviceType }"
+
+    device = deviceGroup.devices[cmd.id]
+    if not device
+      return new Error "Unkown virtual id #{ cmd.id }"
+
+    device.execute cmd
+
 
 exports.EffectGroup = EffectGroup
 exports.EffectManager = EffectManager
