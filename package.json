@@ -22,6 +22,12 @@
         , "serialport": ""
         , "underscore.string": ""
         , "async": ""
+        , "jade": ""
+        , "stylus": ""
+        , "socket.io": ""
+        , "cson": ""
+        , "piler": ""
+        , "express": ""
     }
     , "devDependencies": {
           "mocha": ""
