@@ -1,4 +1,5 @@
 language: node_js
-script: npm rebuild
+before_script: npm rebuild
+script: npm test
 node_js:
   - 0.6
