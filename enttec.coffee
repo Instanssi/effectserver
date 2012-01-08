@@ -8,9 +8,8 @@ class RGBLight
 
   host: "enttec"
 
-  constructor: (opts) ->
+  constructor: ({@address}) ->
     @_buffer = new Buffer 5
-    {@address} = opts
 
 
   set: (r, g, b) ->
