@@ -5,7 +5,7 @@
     , "homepage": "https://github.com/epeli/effectserver"
     , "description": "UDP packet abstraction for multiple DMX controllers"
     , "bugs": {
-            "url": "https://github.com/epeli/effectserver/issues/"
+        "url": "https://github.com/epeli/effectserver/issues/"
     }
     , "repository":
         { "type": "git"
@@ -13,7 +13,7 @@
     }
     , "scripts": {
         "test": "node_modules/.bin/mocha"
-        "start": "node_modules/.bin/coffee server.coffee"
+        , "start": "node_modules/.bin/coffee server.coffee"
     }
     , "main": "./lib/index"
     , "dependencies": {
