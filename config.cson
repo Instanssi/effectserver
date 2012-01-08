@@ -1,14 +1,17 @@
-servers:
-  httpPort: 8080
-  udpPort: 9909
-hosts:
-  enttec1:
-    # path: "/dev/serial/by-id/usb-FTDI_FT245R_USB_FIFO_ENP9D7H7-if00-port0"
-    path: "/dev/serial/by-id/usb-FTDI_USB__-__Serial-if00-port0"
-    type: "enttec"
-mapping:
-  light:
-    0:
-      host: "enttec1"
-      type: "rgb"
-      address: 8
+{
+  servers:
+    httpPort: 8080
+    udpPort: 9909
+  hosts:
+    enttec1:
+      # path: "/dev/serial/by-id/usb-FTDI_FT245R_USB_FIFO_ENP9D7H7-if00-port0"
+      path: "/dev/serial/by-id/usb-FTDI_USB__-__Serial-if00-port0"
+      type: "enttec"
+  mapping:
+    light:
+      0:
+        name: "testi lamppu"
+        host: "enttec1"
+        type: "rgb"
+        address: 2
+}

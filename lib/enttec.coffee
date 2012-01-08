@@ -1,6 +1,13 @@
 
 {SerialPort} = require "serialport"
 
+addressToDip = (address) ->
+  dip = address.toString(2).split("").reverse().join("")
+  zeros = 8 - dip.length
+  if zeros > 0
+    for i in [0...zeros]
+      dip += "0"
+  dip
 
 class RGBLight
 
@@ -8,7 +15,7 @@ class RGBLight
 
   host: "enttec"
 
-  constructor: ({@address}) ->
+  constructor: ({@name, @address}) ->
     @_buffer = new Buffer 5
 
 
@@ -31,7 +38,12 @@ class RGBLight
 
   setOff: -> @set 0, 0, 0
 
-
+  toJSON: ->
+    address: @address
+    type: @type
+    name: @name
+    dipConfig: addressToDip @address
+    dmxChannels: @_buffer.length
 
 class Enttec
 

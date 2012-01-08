@@ -3,13 +3,6 @@ util = require "util"
 enttec = require "./enttec"
 
 
-addressToDip = (address) ->
-  dip = address.toString(2).split("").reverse().join("")
-  zeros = 8 - dip.length
-  if zeros > 0
-    for i in [0...zeros]
-      dip += "0"
-  dip
 
 
 
@@ -25,13 +18,19 @@ class EffectGroup
 
     @devices[virtualId] = device
 
+  toJSON: ->
+    ob = {}
+    for id, device of @devices
+      ob[id] = device.toJSON()
+    ob
+
   getDevice: (virtualId) ->
     @devices[virtualId]
 
   setAll: (args...) ->
     for device in @devices
       devices.set.apply device, args
-    null
+    undefined
 
 
 
@@ -39,7 +38,6 @@ class EffectManager
 
   constructor: (@hosts, @mapping) ->
     @groups = {}
-    @hosts = {}
 
   deviceClasses:
     light:
@@ -52,23 +50,30 @@ class EffectManager
     for k, host of @hosts
       host.commit()
 
+  toJSON: ->
+    ob = {}
+    for k, group of @groups
+      ob[k] = group.toJSON()
+    ob
+
   build: ->
 
     for hostName, hostOpts of @hosts
+
       if Host = @hostClasses[hostOpts.type]
         @hosts[hostName] = new Host hostOpts
-        console.log "Host:", hostName, hostOpts.type
+        console.log "Created host:", hostName, hostOpts.type
       else
         throw new Error "Unknown host type #{ hostOpts.type }"
 
     for deviceClass, deviceMap of @mapping
 
       group = @groups[deviceClass] = new EffectGroup deviceClass
+      console.log "Created group with #{ deviceClass }"
 
       for virtualId, deviceOpts of deviceMap
 
-        console.log "#{ hostName }: dip pos for #{ deviceOpts.address }:", addressToDip deviceOpts.address
-
+        # console.log "#{ hostName }: dip pos for #{ deviceOpts.address }:", addressToDip deviceOpts.address
 
         if Device = @deviceClasses[deviceClass]?[deviceOpts.type]
           device = new Device deviceOpts
@@ -81,6 +86,8 @@ class EffectManager
           throw new Error "Undefined host #{ deviceOpts.host }"
 
         group.mapDevice virtualId, device
+
+    console.log "GROUPS", @groups
 
 
 exports.EffectGroup = EffectGroup

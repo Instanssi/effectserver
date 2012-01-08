@@ -1,12 +1,15 @@
 
 fs = require "fs"
 dgram = require "dgram"
+util = require "util"
 {EventEmitter} = require('events')
 
 CSON = require "cson"
 
 {EffectManager} = require "./lib/effectmanager"
+{packetParse} = require "./lib/packetparser"
 {app, io} = require "./web/webserver"
+webserver = app
 
 
 try
@@ -14,7 +17,7 @@ try
 catch e
   config = JSON.parse fs.readFileSync __dirname + "/config.json"
 
-console.log config
+util.inspect config, false, 10
 
 websocket = new EventEmitter
 
@@ -22,17 +25,20 @@ websocket.on "error", (user, msg) ->
   console.log "#{ user }: #{ msg }"
 
 
-# manager = new EffectManager config.hosts, config.mapping
-# manager.build()
+manager = new EffectManager config.hosts, config.mapping
+manager.build()
+
+
+webserver.get "/config.json", (req, res) ->
+  res.json manager.toJSON()
 
 udbserver = dgram.createSocket("udp4")
-
 udbserver.on "message", (packet, rinfo) ->
 
   console.log "got msg"
 
   try
-    cmds = parse packet
+    cmds = packetParse packet
   catch e
     websocket.emit "error", user, "Failed to parse #{util.inspect packet} because: #{ e }"
     return
@@ -40,17 +46,17 @@ udbserver.on "message", (packet, rinfo) ->
   tag = "anonymous"
 
   for cmd in cmds
-    user = "#{ tag } (#{ rinfo.address }):"
+    user = "#{ tag } (#{ rinfo.address })"
 
     if cmd.tag
-      tag = cmd
+      tag = cmd.tag
       continue
 
     {r, g, b} = cmd.cmd
 
     deviceGroup = manager.groups[cmd.deviceType]
     if not deviceGroup
-      websocket.emit "error", user, "Unknown device group #{ cmd.deviceType }"
+      websocket.emit "error", user, "Unknown device group #{ cmd.deviceType } we had #{ Object.keys(manager.groups).join(" ") }"
       continue
 
     device = deviceGroup.devices[cmd.id]

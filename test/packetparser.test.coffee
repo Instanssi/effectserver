@@ -1,7 +1,7 @@
 
 should = require "should"
 
-{parse} = require "../lib/packetparser"
+{packetParse} = require "../lib/packetparser"
 
 
 describe "packet parser", ->
@@ -18,7 +18,7 @@ describe "packet parser", ->
       , 0   # B
     ]
 
-    should.deepEqual parse(lightPacket), [
+    should.deepEqual packetParse(lightPacket), [
       tag: "anonymous"
     ,
       deviceType: "light"
@@ -52,7 +52,7 @@ describe "packet parser", ->
       , 255 #B
     ]
 
-    should.deepEqual parse(lightPacket), [
+    should.deepEqual packetParse(lightPacket), [
       tag: "anonymous"
     ,
       deviceType: "light"
@@ -101,7 +101,7 @@ describe "packet parser", ->
       , 255 #B
     ]
 
-    should.deepEqual parse(lightPacket), [
+    should.deepEqual packetParse(lightPacket), [
       tag: "anonymous"
     ,
       deviceType: "light"
@@ -162,7 +162,7 @@ describe "packet parser", ->
       , 255 #B
     ]
 
-    should.deepEqual parse(lightPacket), [
+    should.deepEqual packetParse(lightPacket), [
       tag: "epeli"
     ,
       deviceType: "light"

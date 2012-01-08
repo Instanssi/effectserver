@@ -97,4 +97,4 @@ main = (packet) ->
 
 
 
-exports.parse = main
+exports.packetParse = main
