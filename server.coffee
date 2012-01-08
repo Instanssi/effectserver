@@ -5,7 +5,7 @@ dgram = require "dgram"
 
 CSON = require "cson"
 
-{EffectManager} = require "./effectmanager"
+{EffectManager} = require "./lib/effectmanager"
 {app, io} = require "./web/webserver"
 
 

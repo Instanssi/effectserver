@@ -1,7 +1,7 @@
 
 should = require "should"
 
-{parse} = require "../packetparser"
+{parse} = require "../lib/packetparser"
 
 
 describe "packet parser", ->

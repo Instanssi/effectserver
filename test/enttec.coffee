@@ -3,7 +3,7 @@ assert = require "assert"
 
 _  = require 'underscore'
 
-enttec = require "../enttec"
+enttec = require "../lib/enttec"
 
 dmxHeaders = new Buffer [0x7e, 6, 0, 2]
 
