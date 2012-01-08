@@ -37,7 +37,7 @@ class EffectGroup
 
 class EffectManager
 
-  constructor: (@setup) ->
+  constructor: (@hosts, @mapping) ->
     @groups = {}
     @hosts = {}
 
@@ -54,14 +54,14 @@ class EffectManager
 
   build: ->
 
-    for hostName, hostOpts of @setup.hosts
+    for hostName, hostOpts of @hosts
       if Host = @hostClasses[hostOpts.type]
         @hosts[hostName] = new Host hostOpts
         console.log "Host:", hostName, hostOpts.type
       else
         throw new Error "Unknown host type #{ hostOpts.type }"
 
-    for deviceClass, deviceMap of @setup.mapping
+    for deviceClass, deviceMap of @mapping
 
       group = @groups[deviceClass] = new EffectGroup deviceClass
 

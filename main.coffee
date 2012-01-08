@@ -1,7 +1,6 @@
 
 dgram = require "dgram"
 util = require "util"
-{EventEmitter} = require('events')
 
 {EffectManager} = require "./effectmanager"
 
@@ -31,49 +30,7 @@ manager = new EffectManager
 
 manager.build()
 
-udbserver = dgram.createSocket("udp4")
 
-websocket = new EventEmitter
-
-websocket.on "error", (user, msg) ->
-  console.log "#{ user }: #{ msg }"
-
-
-udbserver.on "message", (packet, rinfo) ->
-
-  console.log "got msg"
-  user = rinfo.address
-
-  try
-    cmds = parse packet
-  catch e
-    websocket.emit "error", user, "Failed to parse #{util.inspect packet} because: #{ e }"
-    return
-
-  tag = "anonymous"
-
-  for cmd in cmds
-
-    if cmd.tag
-      tag = cmd
-      continue
-
-    {r, g, b} = cmd.cmd
-
-    deviceGroup = manager.groups[cmd.deviceType]
-    if not deviceGroup
-      websocket.emit "error", user, "Unknown device group #{ cmd.deviceType }"
-      continue
-
-    device = deviceGroup.devices[cmd.id]
-    if not device
-      websocket.emit "error", user, "Unkown virtual id #{ cmd.id }"
-      continue
-
-    device.set r, g, b
-
-
-  manager.commitAll()
 
 
 
