@@ -14,4 +14,34 @@
         host: "enttec1"
         type: "rgb"
         address: 2
+      1:
+        name: "testi lamppu"
+        host: "enttec1"
+        type: "rgb"
+        address: 8
+      2:
+        name: "testi lamppu"
+        host: "enttec1"
+        type: "rgb"
+        address: 16
+      3:
+        name: "testi lamppu"
+        host: "enttec1"
+        type: "rgb"
+        address: 24
+      4:
+        name: "testi lamppu"
+        host: "enttec1"
+        type: "rgb"
+        address: 32
+      5:
+        name: "testi lamppu"
+        host: "enttec1"
+        type: "rgb"
+        address: 40
+      6:
+        name: "testi lamppu"
+        host: "enttec1"
+        type: "rgb"
+        address: 48
 }
