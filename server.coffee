@@ -41,10 +41,11 @@ udbserver.on "message", (packet, rinfo) ->
     # Failed to parse the packet. We cannot continue from here at all.
     return
 
-  # Packet starts as anonymous always
-  tag = "anonymous"
-
-  results = []
+  results =
+    # Packet starts as anonymous always
+    tag: "anonymous"
+    address: rinfo.address
+    cmds: []
 
   for cmd in cmds
 
@@ -53,21 +54,20 @@ udbserver.on "message", (packet, rinfo) ->
       tag = cmd.tag
       continue # to next fragment
 
-    error = manager.route cmd
-    results.push
-      address: rinfo.address
-      tag: tag
-      cmd: cmd
-      error: error?.message
+    if error = manager.route cmd
+      cmd.error = error
+
+    results.cmds.push cmd
 
   manager.commitAll()
-  websocket.emit "cmds", results
+  console.log "sending", cmds
+  websocket.sockets.emit "cmds", results
 
 
 
-websocket.on "cmds", (cmds) ->
-  for cmd in cmds
-    console.log "WEB", cmd
+# websocket.on "cmds", (cmds) ->
+#   for cmd in cmds
+#     console.log "WEB", cmd
 
 
 udbserver.on "listening", ->
