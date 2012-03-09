@@ -34,8 +34,8 @@ udbserver.on "message", (packet, rinfo) ->
     cmds = packetParse packet
   catch e
     # TODO: catch only parse errors
-    websocket.emit "parseError",
-      error: "Failed to parse whole packet: #{ e.message }"
+    websocket.sockets.volatile.emit "parseError",
+      error: e.message
       address: rinfo.address
 
     # Failed to parse the packet. We cannot continue from here at all.
@@ -60,14 +60,8 @@ udbserver.on "message", (packet, rinfo) ->
     results.cmds.push cmd
 
   manager.commitAll()
-  console.log "sending", cmds
-  websocket.sockets.emit "cmds", results
+  websocket.sockets.volatile.emit "cmds", results
 
-
-
-# websocket.on "cmds", (cmds) ->
-#   for cmd in cmds
-#     console.log "WEB", cmd
 
 
 
