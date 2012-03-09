@@ -66,7 +66,7 @@ app.configure "development", ->
 
 
 app.get "/", (req, res) ->
-  res.render "index"
+  res.render "index", app.config.servers
 
 
 

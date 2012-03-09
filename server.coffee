@@ -20,6 +20,8 @@ catch e
   config = JSON.parse fs.readFileSync __dirname + "/config.json"
 
 
+webserver.config = config
+
 manager = new EffectManager config.hosts, config.mapping
 manager.build()
 
