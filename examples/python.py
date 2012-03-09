@@ -20,7 +20,7 @@ packet = bytearray([
 
     1, # Tehosteen tyyppi on yksi eli valo
     0, # Ensimmäinen valo löytyy indeksistä nolla
-    0, # Valon tyyppi on yksi eli RGB
+    0, # Laajennustavu. Aina nolla.
     255, # Punaisuus maksimiin
     0, # Vihreys nollaan
     0, # Sinisyys nollaan
@@ -28,7 +28,7 @@ packet = bytearray([
 
     1, # Toinen tehoste on myöskin valo eli yksi
     1, # Toinen valo on indeksissä yksi
-    0, # Toisen valon tyyppi on myöskin RGB
+    0, # Laajennustavu. Aina nolla.
     # Ja sit rbg kuten edellä
     0,
     255,

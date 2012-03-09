@@ -40,6 +40,11 @@ class Instanssi(object):
         self.reset()
 
 
+
+
+
+
+
 valot = Instanssi("epeli", "192.168.10.1", 9909)
 
 
@@ -48,6 +53,8 @@ for i in range(0, 38):
     valot.set(i, 0, 0,255)
 
 i = 0
+
+# XXX: ikiloopit on pahasta
 while True:
     valot.set(i, 0, 255, 0)
     valot.send()
@@ -61,10 +68,5 @@ while True:
     i = i % 38
 
     print i
-
-
-
-valot.send()
-
 
 
