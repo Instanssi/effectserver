@@ -74,12 +74,17 @@ class EffectPlayer
 if require.main is module
 
   recorder = new EffectRecorder
+  max = 50
 
-  for i in [0..6]
-    recorder.red i
-    recorder.pause 200
+  for i in [10..max]
     recorder.green i
-    recorder.pause 200
+    recorder.pause 50
+    recorder.blue i
+    recorder.pause 20
+
+  # for i in [0..max]
+  #   recorder.blue i
+  #   recorder.pause 1000
 
   player = new EffectPlayer
     host: "127.0.0.1"
