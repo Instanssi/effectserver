@@ -20,11 +20,17 @@ class RGBLight
 
 
   set: (r, g, b) ->
-    @_buffer[0] = 0
-    @_buffer[1] = r
-    @_buffer[2] = g
-    @_buffer[3] = b
+    @_buffer[0] = r
+    @_buffer[1] = g
+    @_buffer[2] = b
+    @_buffer[3] = 255
     @_buffer[4] = 0
+
+    # @_buffer[0] = 0
+    # @_buffer[1] = r
+    # @_buffer[2] = g
+    # @_buffer[3] = b
+    # @_buffer[4] = 0
 
   execute: (cmd, cb) ->
     # TODO: assert values
