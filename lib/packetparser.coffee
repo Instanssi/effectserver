@@ -1,5 +1,7 @@
 
 
+console =
+  log: ->
 
 lightParser = do ->
 
