@@ -1,4 +1,11 @@
 
+`function strip(html)
+{
+     var tmp = document.createElement("DIV");
+        tmp.innerHTML = html;
+           return tmp.textContent||tmp.innerText;
+}`
+
 class LightSimulator extends Backbone.View
 
   className: "lightSimulator"
@@ -44,9 +51,8 @@ class Log extends Backbone.View
   render: ->
     html = ""
     for msg in @messages
-      html += "<p>#{ msg }</p>"
+      html += "<p>#{ strip msg }</p>"
     @el.innerHTML = html
-    console.log html
     @dirty = false
 
 

@@ -53,7 +53,7 @@ udbserver.on "message", (packet, rinfo) ->
 
     # First fragment might tag this packet
     if cmd.tag
-      results.tag = cmd.tag
+      results.tag = cmd.tag.substring(0, 10)
       continue # to next fragment
 
     if error = manager.route cmd
