@@ -45,7 +45,7 @@ class Instanssi(object):
 
 
 
-valot = Instanssi("<b>boo</b>", "192.168.10.1", 9909)
+valot = Instanssi("epeli", "192.168.10.1", 9909)
 
 
 # Sinistä kansalle
@@ -53,6 +53,8 @@ for i in range(0, 38):
     valot.set(i, 0, 0,255)
 valot.send()
 
+
+# Kiertävä vihreä valo
 
 i = 0
 # XXX: ikiloopit on pahasta
