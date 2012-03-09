@@ -8,6 +8,14 @@ udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 packet = bytearray([
     1, # Speksin versio aina yksi
 
+    0, # Nick tag
+    101, # e
+    112, # p
+    101, # e
+    108, # l
+    105, # i
+    0, # Nick lopetus
+
     1, # Tehosteen tyyppi on yksi eli valo
     0, # Ensimmäinen valo löytyy indeksistä nolla
     0, # Valon tyyppi on yksi eli RGB
@@ -18,9 +26,15 @@ packet = bytearray([
     1, # Toinen tehoste on myöskin valo eli yksi
     1, # Toinen valo on indeksissä yksi
     0, # Toisen valon tyyppi on myöskin RGB
-    0, # Punaisuus nollaan
-    0, # Vihreys nollaan
-    255, # Sinisyys maksimiin
+
+    # Ja sit rbg kuten edellä
+    0,
+    255,
+    0,
+
+
+
+
 ])
 
 

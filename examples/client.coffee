@@ -74,9 +74,9 @@ class EffectPlayer
 if require.main is module
 
   recorder = new EffectRecorder
-  max = 50
+  max = 38
 
-  for i in [10..max]
+  for i in [0..max]
     recorder.green i
     recorder.pause 50
     recorder.blue i
