@@ -1,10 +1,9 @@
 
-`function strip(html)
-{
-     var tmp = document.createElement("DIV");
-        tmp.innerHTML = html;
-           return tmp.textContent||tmp.innerText;
-}`
+helperDiv = document.createElement("DIV")
+strip = (html) ->
+  helperDiv.innerHTML = html
+  helperDiv.textContent || tmp.innerText
+
 
 class LightSimulator extends Backbone.View
 
@@ -24,7 +23,7 @@ class LightSimulator extends Backbone.View
   apply: (cmd) ->
     cssValue = "rgb(#{ cmd.r }, #{ cmd.g }, #{ cmd.b })"
     @$el.css "background-color", cssValue
-    @valueDisplay.innerHTML = cssValue
+    @valueDisplay.innerHTML = "#{ cmd.r }, #{ cmd.g }, #{ cmd.b }"
 
 
 class Log extends Backbone.View
@@ -86,9 +85,16 @@ $ ->
 
   socket.on "cmds", (msg, a) ->
     for lightpacket in msg.cmds
+
+      if msg.error
+        logError.log "#{ prettifyMsg msg }: Error: #{ JSON.stringify msg }"
+        continue
+
       if l = lights[lightpacket.id]
         l.apply lightpacket.cmd
-        logInfo.log "#{ prettifyMsg msg }: #{ JSON.stringify lightpacket }"
+        {r, g, b} = lightpacket.cmd
+
+        logInfo.log "#{ prettifyMsg msg }: id #{ lightpacket.id } - RGB #{ r } #{ g } #{ b }"
       else
         logError.log "#{ prettifyMsg msg }: Unkown light id #{ lightpacket.id }"
 
