@@ -6,6 +6,9 @@ import time
 
 
 class Instanssi(object):
+    """
+    Python-luokka Instanssin valojen hallintaan. 
+    """
 
     def __init__(self, nick, ip, port):
         self.ip = ip
@@ -16,15 +19,18 @@ class Instanssi(object):
         self.reset()
 
     def reset(self):
+        """Resetoi UDP-paketti"""
         self.packet = [ 1 ] # Speksin versio aina yksi
 
         self.packet.append(0) # Aloita tagi osa
         for char in self.nick:
+            # Muunna nickin merkit ascii koodeiksi
             self.packet.append(ord(char))
         self.packet.append(0) # Lopeta tagi osa
 
 
     def set(self, i, r, g, b):
+        """Aseta valo i RGB-arvoon"""
         self.packet += [
             1, # Tehosteen tyyppi on yksi eli valo
             i, # Valon indeksi
@@ -35,6 +41,7 @@ class Instanssi(object):
         ]
 
     def send(self):
+        """Lähetä asetetut tavut ja nollaa pakettilista"""
         bytes = bytearray(self.packet)
         self.socket.sendto(bytes, (self.ip, self.port))
         self.reset()
@@ -48,9 +55,10 @@ class Instanssi(object):
 valot = Instanssi("epeli", "192.168.10.1", 9909)
 
 
-# Sinistä kansalle
+# Sinistä kansalle. Aseta kaikki valot sinisiksi
 for i in range(0, 38):
     valot.set(i, 0, 0,255)
+# Lähetä sinisyys käskyt kaikki kerralla
 valot.send()
 
 
