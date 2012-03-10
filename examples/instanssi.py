@@ -52,7 +52,7 @@ class Instanssi(object):
 
 
 
-valot = Instanssi("epeli", "192.168.10.1", 9909)
+valot = Instanssi("instanssilainen", "192.168.10.1", 9909)
 
 
 # Sinistä kansalle. Aseta kaikki valot sinisiksi
