@@ -30,6 +30,15 @@ webserver.get "/config.json", (req, res) ->
   res.json manager.toJSON()
 
 
+if process.env.TAG
+  firewall =
+    allowOnly:
+      tag: process.env.TAG
+
+  setTimeout ->
+    console.log "FIREWALL", firewall
+  , 1000
+
 udbserver.on "message", (packet, rinfo) ->
 
   try
@@ -53,16 +62,25 @@ udbserver.on "message", (packet, rinfo) ->
 
     # First fragment might tag this packet
     if cmd.tag
-      results.tag = cmd.tag.substring(0, 10)
+      results.tag = cmd.tag.substring(0, 15)
       continue # to next fragment
+
+    if firewall?
+      if results.tag isnt firewall.allowOnly.tag
+        console.log "Bad tag '#{ results.tag }' we need '#{ firewall.allowOnly.tag }'"
+        continue
 
     if error = manager.route cmd
       cmd.error = error
 
     results.cmds.push cmd
 
+
   manager.commitAll()
-  websocket.sockets.volatile.emit "cmds", results
+
+  # No debug when firewall is on
+  if not firewall?
+    websocket.sockets.volatile.emit "cmds", results
 
 
 
