@@ -6,3 +6,5 @@ node_modules/**/*.node
 node_modules/**/*.o
 .lock-wscript
 .wafpickle-?
+npm-debug.log
+node_modules/serialport/serialport_native/build/Release/
