@@ -9,6 +9,11 @@ tty.setRawMode(true)
 randInt = (min, max) ->
   Math.floor(Math.random() * (max - min + 1)) + min
 
+RED = [255, 0, 0]
+GREEN = [0, 255, 0]
+BLUE = [0, 0, 255]
+BLACK = [0, 0, 0]
+WHITE = [255, 255, 255]
 
 class EffectClient
 
@@ -85,6 +90,15 @@ class Player
     throw new Error "Bad action"
 
 
+  createProgram: (cb) ->
+    program = []
+    pause = (time) -> program.push time
+    set = (i, r, g, b) -> program.push [i, r, g, b]
+    all = (r, g, b) =>
+      for i in [@client.min..@client.max]
+        program.push [i, r, g, b]
+    cb set, all, pause, program
+    return program
 
 client = new EffectClient
   min: 0
@@ -94,126 +108,95 @@ client = new EffectClient
   port: 9909
 
 
-extend = (a) ->
-  a.sleep = (time) -> @push time
-  a.set = (i, r, g, b) -> @push [i, r, g, b]
-  a.all = (r, g, b) ->
-    for i in [client.min..client.max]
-      @push [i, r, g, b]
-  return a
+player = new Player client
 
-RED = [255, 0, 0]
-GREEN = [0, 255, 0]
-BLUE = [0, 0, 255]
-BLACK = [0, 0, 0]
-WHITE = [255, 255, 255]
+keyboardKeys =
 
-mapping =
+  o: player.createProgram (set, all, pause) ->
+    all BLACK...
+    pause 1000
 
-  o: do ->
-    p = extend []
-    p.all BLACK...
-    p.sleep 1000
-    return p
+  p: player.createProgram (set, all, pause) ->
+    all WHITE...
+    pause 1000
 
+  r: player.createProgram (set, all, pause) ->
 
-  p: do ->
-    p = extend []
-    p.all WHITE...
-    p.sleep 1000
-    return p
-
-  r: do ->
-    p = extend []
-
-    p.all BLACK
+    all BLACK
     len = 10
 
     for i in [client.min..client.max]
       for j in [0..len]
-        p.set i-j, BLACK...
+        set i-j, BLACK...
 
       for j in [0..len]
-        p.set i+j, RED...
+        set i+j, RED...
 
-      p.sleep 20
+      pause 20
 
-    return p
 
-  b: do ->
-    p = extend []
+  b: player.createProgram (set, all, pause) ->
 
-    p.all 10, 10, 10
-    p.sleep 0
+    all 10, 10, 10
+    pause 0
 
     for i in [10..255] by 5
-      p.all 0, 0, i
-      p.sleep 30
+      all 0, 0, i
+      pause 30
 
     for i in [10..255] by 5
-      p.all 0, 0, 255-i
-      p.sleep 30
+      all 0, 0, 255-i
+      pause 30
 
-    p.sleep 30
-
-    return p
+    pause 30
 
 
-  h: do ->
-    p = extend []
-    p.all GREEN...
-    p.sleep 100
-    p.all BLUE...
-    p.sleep 100
-    return p
 
-  j: do ->
-    p = extend []
-    p.all BLACK...
-    p.sleep 100
-    p.all RED...
-    p.sleep 100
-    return p
+  h: player.createProgram (set, all, pause) ->
+    all GREEN...
+    pause 100
+    all BLUE...
+    pause 100
 
-  l: do ->
-    p = extend []
-    for i in [0..38/2]
-      p.set i, BLACK...
+  j: player.createProgram (set, all, pause) ->
+    all BLACK...
+    pause 100
+    all RED...
+    pause 100
 
-    for i in [38/2..38]
-      p.set i, RED...
-
-    p.sleep 300
+  l: player.createProgram (set, all, pause) ->
 
     for i in [0..38/2]
-      p.set i, RED...
+      set i, BLACK...
 
     for i in [38/2..38]
-      p.set i, BLACK...
+      set i, RED...
 
-    p.sleep 300
+    pause 300
 
-    return p
+    for i in [0..38/2]
+      set i, RED...
 
-  n: do ->
-    p = extend []
+    for i in [38/2..38]
+      set i, BLACK...
 
-    p.all BLACK
+    pause 300
+
+
+  n: player.createProgram (set, all, pause) ->
+
+    all BLACK
 
     for i in [client.min..client.max]
-      p.set i-1, BLACK...
-      p.set i-2, BLACK...
-      p.set i, BLUE...
-      p.set i+1, BLUE...
-      p.set i+2, BLUE...
-      p.sleep 100
+      set i-1, BLACK...
+      set i-2, BLACK...
+      set i, BLUE...
+      set i+1, BLUE...
+      set i+2, BLUE...
+      pause 100
 
 
 
-    return p
-
-
-player = new Player client
 
 
 process.stdin.on 'keypress', (char, key) ->
@@ -222,14 +205,14 @@ process.stdin.on 'keypress', (char, key) ->
 
   return if not key # Ignore bad keys
 
-  console.log ("#{ k }: #{ p.length }" for k, p of mapping).join ", "
+  console.log ("#{ k }: #{ p.length }" for k, p of keyboardKeys).join ", "
 
   if key.name is "s" # stop
     console.log "Stopping"
     player.stop()
     return
 
-  if program = mapping[key.name]
+  if program = keyboardKeys[key.name]
     console.log "Playing", key.name
     player.loop program
   else
