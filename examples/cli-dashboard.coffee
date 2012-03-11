@@ -160,7 +160,7 @@ main = ->
         next 1000
 
     r:
-      name: "round red"
+      name: "rolling red"
       program: player.createProgram (set, all, next) ->
 
         all BLACK
@@ -232,7 +232,7 @@ main = ->
 
 
     n:
-      name: "roud blue"
+      name: "rolling blue"
       program: player.createProgram (set, all, next) ->
 
         all BLACK
