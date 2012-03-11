@@ -41,9 +41,6 @@ class EffectClient
     @packet.push i
     @packet.push 0
 
-    if typeof r is "object"
-      {r,g,b} = r
-
     @packet.push r
     @packet.push g
     @packet.push b
@@ -94,12 +91,20 @@ class Player
 
   createProgram: (cb) ->
     program = []
+
     next = (time=0) -> program.push time
-    set = (i, r, g, b) -> program.push [i, r, g, b]
-    all = (r, g, b) =>
+
+    set = (i, r, g, b) ->
+      if typeof r is "object"
+        {r,g,b} = r
+      program.push [i, r, g, b]
+
+    all = (args...) =>
       for i in [@client.min..@client.max]
-        program.push [i, r, g, b]
+        set i, args...
+
     cb set, all, next, program
+
     return program
 
 
@@ -119,24 +124,39 @@ main = ->
 
   player = new Player client
 
-  RED = [255, 0, 0]
-  GREEN = [0, 255, 0]
-  BLUE = [0, 0, 255]
-  BLACK = [0, 0, 0]
-  WHITE = [255, 255, 255]
+  RED =
+    r: 255
+    g: 0
+    b: 0
+  GREEN =
+    r: 0
+    g: 255
+    b: 0
+  BLUE =
+    r: 0
+    g: 0
+    b: 255
+  BLACK =
+    r: 0
+    g: 0
+    b: 0
+  WHITE =
+    r: 255
+    g: 255
+    b: 255
 
   keyboardKeys =
 
     o:
       name: "OFF"
       program: player.createProgram (set, all, next) ->
-        all BLACK...
+        all BLACK
         next 1000
 
     p:
       name: "ON"
       program: player.createProgram (set, all, next) ->
-        all WHITE...
+        all WHITE
         next 1000
 
     r:
@@ -148,10 +168,10 @@ main = ->
 
         for i in [client.min..client.max]
           for j in [0..len]
-            set i-j, BLACK...
+            set i-j, BLACK
 
           for j in [0..len]
-            set i+j, RED...
+            set i+j, RED
 
           next 20
 
@@ -177,17 +197,17 @@ main = ->
     h:
       name: "fast green blue"
       program: player.createProgram (set, all, next) ->
-        all GREEN...
+        all GREEN
         next 100
-        all BLUE...
+        all BLUE
         next 100
 
     j:
       name: "flash red"
       program: player.createProgram (set, all, next) ->
-        all BLACK...
+        all BLACK
         next 100
-        all RED...
+        all RED
         next 100
 
     l:
@@ -195,18 +215,18 @@ main = ->
       program: player.createProgram (set, all, next) ->
 
         for i in [0..38/2]
-          set i, BLACK...
+          set i, BLACK
 
         for i in [38/2..38]
-          set i, RED...
+          set i, RED
 
         next 300
 
         for i in [0..38/2]
-          set i, RED...
+          set i, RED
 
         for i in [38/2..38]
-          set i, BLACK...
+          set i, BLACK
 
         next 300
 
@@ -218,11 +238,11 @@ main = ->
         all BLACK
 
         for i in [client.min..client.max]
-          set i-1, BLACK...
-          set i-2, BLACK...
-          set i, BLUE...
-          set i+1, BLUE...
-          set i+2, BLUE...
+          set i-1, BLACK
+          set i-2, BLACK
+          set i, BLUE
+          set i+1, BLUE
+          set i+2, BLUE
           next 100
 
 
