@@ -89,7 +89,7 @@ class Player
 client = new EffectClient
   min: 0
   max: 38
-  nick: "epe"
+  nick: process.env.TAG or "epe"
   ip: process.argv[2] or "localhost"
   port: 9909
 
@@ -136,24 +136,25 @@ mapping =
       for j in [0..len]
         p.set i+j, RED...
 
-      p.sleep 40
+      p.sleep 20
 
     return p
 
   b: do ->
     p = extend []
 
-    p.all BLACK...
+    p.all 10, 10, 10
     p.sleep 0
 
-    for i in [0..255] by 5
+    for i in [10..255] by 5
       p.all 0, 0, i
-      p.sleep 20
+      p.sleep 30
 
-    for i in [0..255] by 5
+    for i in [10..255] by 5
       p.all 0, 0, 255-i
-      p.sleep 20
+      p.sleep 30
 
+    p.sleep 30
 
     return p
 
@@ -168,13 +169,33 @@ mapping =
 
   j: do ->
     p = extend []
-    p.all WHITE...
+    p.all BLACK...
     p.sleep 100
     p.all RED...
     p.sleep 100
     return p
 
-  k: do ->
+  l: do ->
+    p = extend []
+    for i in [0..38/2]
+      p.set i, BLACK...
+
+    for i in [38/2..38]
+      p.set i, RED...
+
+    p.sleep 300
+
+    for i in [0..38/2]
+      p.set i, RED...
+
+    for i in [38/2..38]
+      p.set i, BLACK...
+
+    p.sleep 300
+
+    return p
+
+  n: do ->
     p = extend []
 
     p.all BLACK
