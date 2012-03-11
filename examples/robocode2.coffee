@@ -253,9 +253,9 @@ main = ->
 
     printHelp()
 
-    if program = keyboardKeys[char]?.program
-      console.log "Playing", program.name
-      player.loop program
+    if ob = keyboardKeys[char]
+      console.log "Playing", ob.name
+      player.loop ob.program
     else
       console.log "Unkown program #{ char }"
 
