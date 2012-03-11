@@ -1,3 +1,10 @@
+###
+#
+# Node.js & CoffeeScript
+#
+####
+
+
 
 dgram = require('dgram')
 
@@ -9,11 +16,6 @@ tty.setRawMode(true)
 randInt = (min, max) ->
   Math.floor(Math.random() * (max - min + 1)) + min
 
-RED = [255, 0, 0]
-GREEN = [0, 255, 0]
-BLUE = [0, 0, 255]
-BLACK = [0, 0, 0]
-WHITE = [255, 255, 255]
 
 class EffectClient
 
@@ -100,122 +102,163 @@ class Player
     cb set, all, next, program
     return program
 
-client = new EffectClient
-  min: 0
-  max: 38
-  nick: process.env.TAG or "epe"
-  ip: process.argv[2] or "localhost"
-  port: 9909
-
-
-player = new Player client
-
-keyboardKeys =
-
-  o: player.createProgram (set, all, next) ->
-    all BLACK...
-    next 1000
-
-  p: player.createProgram (set, all, next) ->
-    all WHITE...
-    next 1000
-
-  r: player.createProgram (set, all, next) ->
-
-    all BLACK
-    len = 10
-
-    for i in [client.min..client.max]
-      for j in [0..len]
-        set i-j, BLACK...
-
-      for j in [0..len]
-        set i+j, RED...
-
-      next 20
-
-
-  b: player.createProgram (set, all, next) ->
-
-    all 10, 10, 10
-    next 0
-
-    for i in [10..255] by 5
-      all 0, 0, i
-      next 30
-
-    for i in [10..255] by 5
-      all 0, 0, 255-i
-      next 30
-
-    next 30
-
-
-
-  h: player.createProgram (set, all, next) ->
-    all GREEN...
-    next 100
-    all BLUE...
-    next 100
-
-  j: player.createProgram (set, all, next) ->
-    all BLACK...
-    next 100
-    all RED...
-    next 100
-
-  l: player.createProgram (set, all, next) ->
-
-    for i in [0..38/2]
-      set i, BLACK...
-
-    for i in [38/2..38]
-      set i, RED...
-
-    next 300
-
-    for i in [0..38/2]
-      set i, RED...
-
-    for i in [38/2..38]
-      set i, BLACK...
-
-    next 300
-
-
-  n: player.createProgram (set, all, next) ->
-
-    all BLACK
-
-    for i in [client.min..client.max]
-      set i-1, BLACK...
-      set i-2, BLACK...
-      set i, BLUE...
-      set i+1, BLUE...
-      set i+2, BLUE...
-      next 100
 
 
 
 
 
-process.stdin.on 'keypress', (char, key) ->
-  if char.charCodeAt(0) is 27 # esc
-    process.exit 0
+main = ->
 
-  return if not key # Ignore bad keys
-
-  console.log ("#{ k }: #{ p.length }" for k, p of keyboardKeys).join ", "
-
-  if key.name is "s" # stop
-    console.log "Stopping"
-    player.stop()
-    return
-
-  if program = keyboardKeys[key.name]
-    console.log "Playing", key.name
-    player.loop program
-  else
-    console.log "Unkown program #{ char }"
+  client = new EffectClient
+    min: 0
+    max: 38
+    nick: process.env.TAG or "epe"
+    ip: process.argv[2] or "localhost"
+    port: 9909
 
 
+  player = new Player client
+
+  RED = [255, 0, 0]
+  GREEN = [0, 255, 0]
+  BLUE = [0, 0, 255]
+  BLACK = [0, 0, 0]
+  WHITE = [255, 255, 255]
+
+  keyboardKeys =
+
+    o:
+      name: "OFF"
+      program: player.createProgram (set, all, next) ->
+        all BLACK...
+        next 1000
+
+    p:
+      name: "ON"
+      program: player.createProgram (set, all, next) ->
+        all WHITE...
+        next 1000
+
+    r:
+      name: "round red"
+      program: player.createProgram (set, all, next) ->
+
+        all BLACK
+        len = 10
+
+        for i in [client.min..client.max]
+          for j in [0..len]
+            set i-j, BLACK...
+
+          for j in [0..len]
+            set i+j, RED...
+
+          next 20
+
+
+    b:
+      name: "blue fade"
+      program: player.createProgram (set, all, next) ->
+
+        all 10, 10, 10
+        next 0
+
+        for i in [10..255] by 5
+          all 0, 0, i
+          next 30
+
+        for i in [10..255] by 5
+          all 0, 0, 255-i
+          next 30
+
+        next 30
+
+
+    h:
+      name: "fast green blue"
+      program: player.createProgram (set, all, next) ->
+        all GREEN...
+        next 100
+        all BLUE...
+        next 100
+
+    j:
+      name: "flash red"
+      program: player.createProgram (set, all, next) ->
+        all BLACK...
+        next 100
+        all RED...
+        next 100
+
+    l:
+      name: "red sides"
+      program: player.createProgram (set, all, next) ->
+
+        for i in [0..38/2]
+          set i, BLACK...
+
+        for i in [38/2..38]
+          set i, RED...
+
+        next 300
+
+        for i in [0..38/2]
+          set i, RED...
+
+        for i in [38/2..38]
+          set i, BLACK...
+
+        next 300
+
+
+    n:
+      name: "roud blue"
+      program: player.createProgram (set, all, next) ->
+
+        all BLACK
+
+        for i in [client.min..client.max]
+          set i-1, BLACK...
+          set i-2, BLACK...
+          set i, BLUE...
+          set i+1, BLUE...
+          set i+2, BLUE...
+          next 100
+
+
+
+
+  printHelp = ->
+
+    console.log ""
+    for k, ob of keyboardKeys
+      console.log "#{ k }: #{ ob.name }"
+    console.log ""
+
+
+  printHelp()
+  process.stdin.on 'keypress', (char, key) ->
+
+
+    if char.charCodeAt(0) is 27 # esc
+      process.exit 0
+    if key?.name is "c" and key.ctrl
+      process.exit 0
+
+
+    if char is "s" # stop
+      console.log "Stopping"
+      player.stop()
+      return
+
+    printHelp()
+
+    if program = keyboardKeys[char]?.program
+      console.log "Playing", program.name
+      player.loop program
+    else
+      console.log "Unkown program #{ char }"
+
+
+if require.main is module
+  main()
