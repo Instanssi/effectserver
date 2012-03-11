@@ -92,12 +92,12 @@ class Player
 
   createProgram: (cb) ->
     program = []
-    pause = (time) -> program.push time
+    next = (time=0) -> program.push time
     set = (i, r, g, b) -> program.push [i, r, g, b]
     all = (r, g, b) =>
       for i in [@client.min..@client.max]
         program.push [i, r, g, b]
-    cb set, all, pause, program
+    cb set, all, next, program
     return program
 
 client = new EffectClient
@@ -112,15 +112,15 @@ player = new Player client
 
 keyboardKeys =
 
-  o: player.createProgram (set, all, pause) ->
+  o: player.createProgram (set, all, next) ->
     all BLACK...
-    pause 1000
+    next 1000
 
-  p: player.createProgram (set, all, pause) ->
+  p: player.createProgram (set, all, next) ->
     all WHITE...
-    pause 1000
+    next 1000
 
-  r: player.createProgram (set, all, pause) ->
+  r: player.createProgram (set, all, next) ->
 
     all BLACK
     len = 10
@@ -132,39 +132,39 @@ keyboardKeys =
       for j in [0..len]
         set i+j, RED...
 
-      pause 20
+      next 20
 
 
-  b: player.createProgram (set, all, pause) ->
+  b: player.createProgram (set, all, next) ->
 
     all 10, 10, 10
-    pause 0
+    next 0
 
     for i in [10..255] by 5
       all 0, 0, i
-      pause 30
+      next 30
 
     for i in [10..255] by 5
       all 0, 0, 255-i
-      pause 30
+      next 30
 
-    pause 30
+    next 30
 
 
 
-  h: player.createProgram (set, all, pause) ->
+  h: player.createProgram (set, all, next) ->
     all GREEN...
-    pause 100
+    next 100
     all BLUE...
-    pause 100
+    next 100
 
-  j: player.createProgram (set, all, pause) ->
+  j: player.createProgram (set, all, next) ->
     all BLACK...
-    pause 100
+    next 100
     all RED...
-    pause 100
+    next 100
 
-  l: player.createProgram (set, all, pause) ->
+  l: player.createProgram (set, all, next) ->
 
     for i in [0..38/2]
       set i, BLACK...
@@ -172,7 +172,7 @@ keyboardKeys =
     for i in [38/2..38]
       set i, RED...
 
-    pause 300
+    next 300
 
     for i in [0..38/2]
       set i, RED...
@@ -180,10 +180,10 @@ keyboardKeys =
     for i in [38/2..38]
       set i, BLACK...
 
-    pause 300
+    next 300
 
 
-  n: player.createProgram (set, all, pause) ->
+  n: player.createProgram (set, all, next) ->
 
     all BLACK
 
@@ -193,7 +193,7 @@ keyboardKeys =
       set i, BLUE...
       set i+1, BLUE...
       set i+2, BLUE...
-      pause 100
+      next 100
 
 
 
