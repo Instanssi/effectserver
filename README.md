@@ -17,6 +17,3 @@ to `/dev/null` if you want to play with it without an actual Enttec device
 
     npm start
 
-## Docs
-
-Coming soon. Mean while see `examples/client.coffee`
