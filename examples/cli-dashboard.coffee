@@ -116,9 +116,9 @@ main = ->
 
   client = new EffectClient
     min: 0
-    max: 38
+    max: 35
     nick: process.env.TAG or "epe"
-    ip: process.argv[2] or "localhost"
+    ip: process.argv[2] or "172.18.12.2"
     port: 9909
 
 

@@ -58,5 +58,5 @@ packet = bytearray([
 ])
 
 
-udp_socket.sendto(packet, ('192.168.10.1', 9909))
+udp_socket.sendto(packet, ('172.18.12.2', 9909))
 

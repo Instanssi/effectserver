@@ -29,7 +29,7 @@ message = new Buffer [
 ]
 
 
-client.send message, 0, message.length, 9909, "127.0.0.1", (err, bytes) ->
+client.send message, 0, message.length, 9909, "172.18.12.2", (err, bytes) ->
   console.log "sent"
   console.log err, bytes
 

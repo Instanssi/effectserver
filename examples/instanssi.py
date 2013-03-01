@@ -52,11 +52,11 @@ class Instanssi(object):
 
 
 
-valot = Instanssi("instanssilainen", "192.168.10.1", 9909)
+valot = Instanssi("instanssilainen", "172.18.12.2", 9909)
 
 
 # Sinistä kansalle. Aseta kaikki valot sinisiksi
-for i in range(0, 38):
+for i in range(0, 36):
     valot.set(i, 0, 0,255)
 # Lähetä sinisyys käskyt kaikki kerralla
 valot.send()
@@ -70,13 +70,13 @@ while True:
     valot.set(i, 0, 255, 0)
     valot.send()
 
-    time.sleep(0.1)
+    time.sleep(0.3)
 
     valot.set(i, 0, 0,255)
     valot.send()
 
     i += 1
-    i = i % 38
+    i = i % 36
 
     print i
 

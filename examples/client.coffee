@@ -54,7 +54,7 @@ class EffectPlayer
     @buf[4] = color.r
     @buf[5] = color.g
     @buf[6] = color.b
-    @udp.send @buf, 0, @buf.length, 9909, "127.0.0.1"
+    @udp.send @buf, 0, @buf.length, 9909, "172.18.12.2"
 
   loop: =>
 
@@ -74,7 +74,7 @@ class EffectPlayer
 if require.main is module
 
   recorder = new EffectRecorder
-  max = 38
+  max = 35
 
   for i in [0..max]
     recorder.green i

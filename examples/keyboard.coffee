@@ -71,7 +71,7 @@ mapping =
   n: 27
   m: 28
 
-rgb = new RGB "esa", "192.168.10.1", 9909
+rgb = new RGB "esa", "172.18.12.2", 9909
 
 rgb.set 1, 255, 0, 0
 console.log rgb.packet
