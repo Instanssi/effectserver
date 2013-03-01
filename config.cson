@@ -6,210 +6,189 @@
     enttec1:
       # path: "/dev/serial/by-id/usb-FTDI_FT245R_USB_FIFO_ENP9D7H7-if00-port0"
       # path: "/dev/serial/by-id/usb-FTDI_USB__-__Serial-if00-port0"
-      path: "/dev/serial/by-id/usb-FTDI_USB__-__Serial-if00-port0"
-      # path: "/dev/serial/by-id/usb-ENTTEC_DMX_USB_PRO_ENR35XBU-if00-port0"
+      # path: "/dev/serial/by-id/usb-FTDI_USB__-__Serial-if00-port0"
+      path: "/dev/serial/by-id/usb-ENTTEC_DMX_USB_PRO_ENR35XBU-if00-port0"
       type: "enttec"
   mapping:
     light:
-      # 10:
-      #   name: "sali rgb"
-      #   host: "enttec1"
-      #   type: "rgb"
-      #   address: 8
-
       0:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 1
+        address: 60
       1:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 6
+        address: 65
       2:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 11
+        address: 70
       3:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 16
+        address: 75
       4:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 21
+        address: 80
       5:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 26
+        address: 85
       6:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 31
+        address: 90
       7:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 36
+        address: 95
       8:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 41
+        address: 100
       9:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 46
+        address: 105
       10:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 51
+        address: 110
       11:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 56
+        address: 115
       12:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 61
+        address: 120
       13:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 66
+        address: 125
       14:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 71
+        address: 130
       15:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 76
+        address: 135
       16:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 81
+        address: 140
       17:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 86
+        address: 145
       18:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 91
+        address: 150
       19:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 96
+        address: 155
       20:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 101
+        address: 160
       21:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 106
+        address: 165
       22:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 111
+        address: 170
       23:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 116
+        address: 175
       24:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 121
+        address: 180
       25:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 126
+        address: 185
       26:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 131
+        address: 190
       27:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 136
+        address: 195
       28:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 141
+        address: 200
       29:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 146
+        address: 205
       30:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 151
+        address: 210
       31:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 156
+        address: 215
       32:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 161
+        address: 220
       33:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 166
+        address: 225
       34:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 171
+        address: 230
       35:
         name: "sali rgb"
         host: "enttec1"
         type: "rgb"
-        address: 176
-      36:
-        name: "sali rgb"
-        host: "enttec1"
-        type: "rgb"
-        address: 181
-      37:
-        name: "sali rgb"
-        host: "enttec1"
-        type: "rgb"
-        address: 186
-      38:
-        name: "sali rgb"
-        host: "enttec1"
-        type: "rgb"
-        address: 191
+        address: 235
 }
