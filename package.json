@@ -24,10 +24,11 @@
         , "async": ""
         , "jade": ""
         , "stylus": ""
-        , "socket.io": ""
+        , "socket.io": "0.9.16"
         , "cson": ""
         , "piler": ""
-        , "express": ""
+        , "express": "2.5.11"
+        , "hbs": ""
     }
     , "devDependencies": {
           "mocha": ""
