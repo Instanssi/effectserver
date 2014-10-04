@@ -1,9 +1,5 @@
 config.coffee
-node_modules/**/out
-node_modules/**/build
-node_modules/**/build/config.log
-node_modules/**/*.node
-node_modules/**/*.o
+node_modules/
 .lock-wscript
 .wafpickle-?
 npm-debug.log
