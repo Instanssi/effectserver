@@ -4,14 +4,18 @@ UDP packet abstraction for multiple DMX controllers.
 
 ## Installing
 
-Get Node.js 0.6.x
+First, get Node.js and npm. On Debian and related distros you most likely
+want the `nodejs-legacy` and `npm` packages.
 
-    npm rebuild
+Fetch the server's dependencies using npm.
+
+	npm install
 
 ## Configuring
 
-`config.cson` contains the last config from Instanssi 2012. Just set the path
-to `/dev/null` if you want to play with it without an actual Enttec device
+`config.cson` contains the last config from Instanssi 2012. If you want to
+test your light effects without an actual Enttec device, leave the host path
+unconfigured.
 
 ## Running
 
