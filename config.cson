@@ -7,7 +7,7 @@
       # path: "/dev/serial/by-id/usb-FTDI_FT245R_USB_FIFO_ENP9D7H7-if00-port0"
       # path: "/dev/serial/by-id/usb-FTDI_USB__-__Serial-if00-port0"
       # path: "/dev/serial/by-id/usb-FTDI_USB__-__Serial-if00-port0"
-      path: "/dev/serial/by-id/usb-ENTTEC_DMX_USB_PRO_ENR35XBU-if00-port0"
+      # path: "/dev/serial/by-id/usb-ENTTEC_DMX_USB_PRO_ENR35XBU-if00-port0"
       type: "enttec"
   mapping:
     light:

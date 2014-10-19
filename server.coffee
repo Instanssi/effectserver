@@ -6,6 +6,9 @@ util = require "util"
 
 CSON = require "cson"
 
+process.on 'uncaughtException', (err) ->
+  console.log 'Caught exception' + err
+
 {EffectManager} = require "./lib/effectmanager"
 {packetParse} = require "./lib/packetparser"
 

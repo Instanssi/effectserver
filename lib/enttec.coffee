@@ -68,8 +68,9 @@ class Enttec
     @_buffer = new Buffer 517
     @reset()
     @devices = []
-    @serial = new SerialPort opts.path,
-      baudrate: 57600
+    if opts.path
+      @serial = new SerialPort opts.path,
+        baudrate: 57600
 
 
   add: (device) ->
@@ -115,7 +116,8 @@ class Enttec
     # dmx packet must always end with 0xe7
     @_buffer[@_buffer.length-1]  = 0xe7
 
-    @serial.write @_buffer
+    if @serial
+      @serial.write @_buffer
 
 exports.Enttec = Enttec
 exports.RGBLight = RGBLight
