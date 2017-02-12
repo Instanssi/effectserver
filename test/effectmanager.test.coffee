@@ -8,7 +8,7 @@ describe "Effect Manager with few lights", ->
 
   manager = new EffectManager
     enttec1:
-      path: "/dev/null"
+      path: null
       type: "enttec"
   ,
     light:

@@ -2,10 +2,10 @@ CSON = require "cson"
 dgram = require "dgram"
 fs = require "fs"
 util = require "util"
-{EventEmitter} = require('events')
+EventEmitter = require "events"
 
 process.on 'uncaughtException', (err) ->
-  console.log 'Caught exception' + err
+  console.log 'Caught exception', err
 
 {EffectManager} = require "./lib/effectmanager"
 {packetParse} = require "./lib/packetparser"
@@ -15,9 +15,9 @@ udpserver = dgram.createSocket("udp4")
 
 
 onConfigRead = (error, config) ->
-  if err
+  if error
     console.error 'failed to read configuration file:', error
-    throw err
+    throw error
   webserver.config = config
 
   manager = new EffectManager config.hosts, config.mapping
