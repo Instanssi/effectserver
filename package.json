@@ -1,38 +1,41 @@
 {
-    "name" : "effectserver"
-    , "version": "0.1.0"
-    , "author": "Esa-Matti Suuronen"
-    , "homepage": "https://github.com/epeli/effectserver"
-    , "description": "UDP packet abstraction for multiple DMX controllers"
-    , "bugs": {
-        "url": "https://github.com/epeli/effectserver/issues/"
-    }
-    , "repository":
-        { "type": "git"
-        , "url": "git://github.com/epeli/effectserver.git"
-    }
-    , "scripts": {
-        "test": "node_modules/.bin/mocha"
-        , "start": "node_modules/.bin/coffee server.coffee"
-    }
-    , "main": "./lib/index"
-    , "dependencies": {
-        "coffee-script": ""
-        , "underscore": ""
-        , "serialport": ""
-        , "underscore.string": ""
-        , "async": ""
-        , "jade": ""
-        , "stylus": ""
-        , "socket.io": "0.9.16"
-        , "cson": ""
-        , "piler": ""
-        , "express": "2.5.11"
-        , "hbs": ""
-    }
-    , "devDependencies": {
-          "mocha": ""
-        , "should": ""
-        , "supervisor": ""
+    "name": "effectserver",
+    "version": "0.1.1",
+    "author": "Esa-Matti Suuronen",
+    "contributors": [
+        "Tommi Teistelä"
+    ],
+    "homepage": "https://github.com/Instanssi/effectserver",
+    "description": "UDP packet abstraction for multiple DMX controllers",
+    "bugs": {
+        "url": "https://github.com/Instanssi/effectserver/issues/"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Instanssi/effectserver.git"
+    },
+    "scripts": {
+        "test": "node_modules/.bin/mocha",
+        "start": "node_modules/.bin/coffee server.coffee"
+    },
+    "main": "./lib/index",
+    "dependencies": {
+        "coffee-script": "~1.10.0",
+        "underscore": "~1.8.3",
+        "serialport": "~2.0.6",
+        "underscore.string": "~3.3.4",
+        "async": "~1.5.2",
+        "jade": "~1.11.0",
+        "stylus": "~0.53.0",
+        "socket.io": "~0.9.16",
+        "cson": "~3.0.2",
+        "piler": "~0.5.1",
+        "express": "~2.5.11",
+        "hbs": "~4.0.0"
+    },
+    "devDependencies": {
+        "mocha": "~3.1.2",
+        "should": "~11.2.0",
+        "supervisor": "~0.11.0"
     }
 }
