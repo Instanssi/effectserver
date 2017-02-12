@@ -1,9 +1,8 @@
 
 assert = require "assert"
-
 _  = require 'underscore'
-
 enttec = require "../lib/enttec"
+
 
 dmxHeaders = new Buffer [0x7e, 6, 0, 2]
 
@@ -29,10 +28,10 @@ describe "Enttec host buffer", ->
       done()
     host.commit()
 
-  it "generates headers matching the DMX512 specs",  ->
+  it "generates headers matching the DMX512 specs", ->
     assert.deepEqual data.slice(0, dmxHeaders.length), dmxHeaders
 
-  it "ends the buffer in the terminator character",  ->
+  it "ends the buffer in the terminator character", ->
     assert.equal data[data.length-1], 0xe7
 
 
@@ -58,10 +57,10 @@ describe "Enttec buffer output for RGB lights", ->
   it "Sets the first light's red intensity in the buffer", ->
     assert.equal data[dmxHeaders.length + 8 + 0], 255
 
-  it "Sets the second light's green intensity in the buffer'",->
+  it "Sets the second light's green intensity in the buffer",->
     assert.equal data[dmxHeaders.length + 16 + 1], 254
 
-  it "Sets the third light's blue intensity in the buffer'",->
+  it "Sets the third light's blue intensity in the buffer",->
     assert.equal data[dmxHeaders.length + 24 + 2], 253
 
 
@@ -76,26 +75,25 @@ describe "RGB lights in Enttec host", ->
     host.add new enttec.RGBLight address: 8
     host.add new enttec.RGBLight address: 16
 
-  it "can have two lights close to each others", ->
+  it "can have two lights added in tightly packed addresses", ->
     host.add new enttec.RGBLight address: 8
     host.add new enttec.RGBLight address: 13
 
-
-  it "revert previous", ->
+  it "can have two lights added in tightly packed addresses (reverse order)", ->
     host.add new enttec.RGBLight address: 13
     host.add new enttec.RGBLight address: 8
 
-  it "should not be possible to add another light before previous ends", ->
+  it "should throw if a new light added after an existing one overlaps with it", ->
     host.add new enttec.RGBLight address: 8
     assert.throws ->
       host.add new enttec.RGBLight address: 10
 
-  it "should not be possible to add another light on top of previous begin", ->
+  it "should throw if a new light added before an existing one overlaps with it", ->
     host.add new enttec.RGBLight address: 8
     assert.throws ->
       host.add new enttec.RGBLight address: 5
 
-  it "should not be possible to add second light on top of previous",  ->
+  it "should throw if a new light is placed in the same address as an existing one",  ->
     host.add new enttec.RGBLight address: 8
     assert.throws ->
       host.add new enttec.RGBLight address: 8
