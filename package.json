@@ -15,8 +15,8 @@
         "url": "https://github.com/Instanssi/effectserver.git"
     },
     "scripts": {
-        "test": "node_modules/.bin/mocha",
-        "start": "node_modules/.bin/coffee server.coffee"
+        "test": "mocha --compilers coffee:coffee-script/register",
+        "start": "coffee server.coffee"
     },
     "main": "./lib/index",
     "dependencies": {
