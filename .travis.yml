@@ -1,4 +1,4 @@
 language: node_js
-install: npm rebuild
+install: npm install
 node_js:
-  - 0.6
+  - 4
