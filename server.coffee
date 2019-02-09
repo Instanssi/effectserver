@@ -1,5 +1,6 @@
 CSON = require "cson"
 dgram = require "dgram"
+ws = require "ws"
 fs = require "fs"
 util = require "util"
 EventEmitter = require "events"
@@ -35,7 +36,7 @@ onConfigRead = (error, config) ->
       console.log "FIREWALL", firewall
     , 1000
 
-  udpserver.on "message", (packet, rinfo) ->
+  processPacket = (packet, rinfo) ->
     try
       cmds = packetParse packet
     catch e
@@ -76,6 +77,18 @@ onConfigRead = (error, config) ->
     # No debug when firewall is on
     if not firewall?
       websocket.sockets.volatile.emit "cmds", results
+
+  wsserver = new ws.Server { port: config.servers.webSocketPort, host: config.servers.webSocketHost }
+
+  wsserver.on "listening", ->
+    console.log "Now listening WebSocket on #{ config.servers.webSocketHost }:#{ config.servers.webSocketPort }"
+
+  wsserver.on 'connection', (socket, req) ->
+    socket.on 'message', (packet) ->
+      processPacket packet, { address: req.connection.remoteAddress }
+
+  udpserver.on "message", (packet, rinfo) ->
+    processPacket packet, rinfo
 
   udpserver.on "listening", ->
     console.log "Now listening on UDP port #{ config.servers.udpPort }"

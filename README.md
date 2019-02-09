@@ -1,6 +1,6 @@
 # Effect Server for Instanssi Party
 
-UDP packet abstraction for multiple DMX controllers.
+UDP and WebSocket packet abstraction for multiple DMX controllers.
 
 ## Installing
 

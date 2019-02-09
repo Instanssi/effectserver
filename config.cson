@@ -2,6 +2,8 @@
   servers:
     httpPort: 8080
     udpPort: 9909
+    webSocketPort: 9910
+    webSocketHost: "0.0.0.0"
   hosts:
     enttec1:
       # path: "/dev/serial/by-id/usb-FTDI_FT245R_USB_FIFO_ENP9D7H7-if00-port0"
